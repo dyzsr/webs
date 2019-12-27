@@ -7,7 +7,6 @@ import (
 func main() {
 	app := gin.Default()
 
-	app.GET("info", handleInfo)
-
+	app.GET("/", view)
 	app.Run()
 }
