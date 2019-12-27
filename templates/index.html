@@ -1,12 +1,66 @@
 <!DOCTYPE html>
 <html>
 
+<!-- TODO: define template -->
+
 <head>
-    <title>Title</title>
+    <title>Personal Website</title>
+    <meta charset="utf-8"/>
 </head>
 
 <body>
-    <p>Hahahahaha</p>
+
+    <div>
+        <p><b>Personal Info</b></p>
+
+        <table>
+            <tr align="left">
+                <th>Name</th>
+                <td>hwr & sfs</td>
+            </tr>
+            <tr align="left">
+                <th>Gender</th>
+                <td>Male</td>
+            </tr>
+            <tr align="left">
+                <th>Birthday</th>
+                <td>1999-12-31</td>
+            </tr>
+        </table>
+    </div>
+
+    <hr>
+
+    <div>
+        <p><b>Labs</b></p>
+    </div>
+    
+    <hr>
+
+    <div>
+        <p><b>Media</b></p>
+        <div>
+            <label for="uploadfile">Select media to upload:</label><br>
+            <input type="file" id="uploadfile"><br>
+        </div>
+        <div>
+            <button onclick="onClick()">Upload</button>
+        </div>
+    </div>
+
+    <hr>
+
 </body>
+
+<script>
+    const input = document.getElementById("uploadfile");
+
+    const upload = (file) => {
+    }
+
+    const onClick = () => upload(input.files[0]);
+</script>
+
+
 
 </html>

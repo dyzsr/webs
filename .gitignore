@@ -2,6 +2,7 @@
 .idea/
 .vscode/
 bin/
+media/*
 
 # Binaries for programs and plugins
 *.exe
