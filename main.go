@@ -5,11 +5,11 @@ import (
 )
 
 func main() {
-	app := gin.Default()
+	router := gin.Default()
+	router.LoadHTMLGlob("templates/*")
 
-	app.GET("/", view)
-	app.POST("/upload", upload)
-	app.POST("/download", download)
-	app.DELETE("/delete", delete)
-	app.Run()
+	router.GET("/", view)
+	router.GET("/media/:filename", download)
+	router.POST("/upload", upload)
+	router.Run(":9999")
 }

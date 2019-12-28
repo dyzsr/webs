@@ -1,59 +1,42 @@
 package main
 
 import (
-	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
+	"path/filepath"
 
 	"github.com/gin-gonic/gin"
 )
 
-var (
-	filenames = map[string]string{
-		"index": "templates/index.html",
-	}
-
-	body string
-)
-
-func init() {
-	data, err := ioutil.ReadFile("templates/index.html")
-	if err != nil {
-		panic(err)
-	}
-	body = string(data)
-
-	log.Printf("template <%s> loaded\n", filenames["index"])
-}
-
 func view(c *gin.Context) {
-	tmpl, err := template.New("index").Parse(body)
+	pageData, err := NewPageData()
 	if err != nil {
 		log.Fatal(err)
-		c.String(http.StatusInternalServerError, "error")
+		c.String(http.StatusInternalServerError, "internal error")
 		return
 	}
-
-	err = tmpl.ExecuteTemplate(os.Stdout, "T1", "pipeline")
-	if err != nil {
-		log.Fatal(err)
-		c.String(http.StatusInternalServerError, "error")
-		return
-	}
-
-	c.HTML(http.StatusOK, "index", "pipeline")
-}
-
-func upload(c *gin.Context) {
-
+	c.HTML(http.StatusOK, "index.tmpl", pageData)
 }
 
 func download(c *gin.Context) {
-
+	filename := c.Param("filename")
+	c.File("media/" + filename)
 }
 
-func delete(c *gin.Context) {
+func upload(c *gin.Context) {
+	file, err := c.FormFile("file")
+	if err != nil {
+		log.Fatal(err)
+		c.String(http.StatusBadRequest, "get form error")
+		return
+	}
 
+	filename := "media/" + filepath.Base(file.Filename)
+	if err := c.SaveUploadedFile(file, filename); err != nil {
+		log.Fatal(err)
+		c.String(http.StatusInternalServerError, "save file error")
+		return
+	}
+
+	c.String(http.StatusOK, "success")
 }
